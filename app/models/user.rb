@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :books
   # Userモデルとの1:Nの関係付け
   has_many :book_comments, dependent: :destroy
+  # Favoriteモデルとの関係付け
+  has_many :favorites,dependent: :destroy
   has_one_attached :profile_image
 
   validates :name, length: { minimum: 2, maximum: 20 }, uniqueness: true

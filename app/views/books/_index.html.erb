@@ -16,6 +16,8 @@
         </td>
         <td><%= link_to book.title,book %></td>
         <td><%= book.body %></td>
+        <td><%= render 'favorites/nice', book: book %></td>
+        <!--book:@bookで単数ではなく複数を渡して-->
         <td>コメント件数:<%= book.book_comments.count %></td>
       </tr>
     <% end %>

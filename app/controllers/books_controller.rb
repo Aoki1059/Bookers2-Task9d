@@ -1,16 +1,17 @@
 class BooksController < ApplicationController
-  before_action :book_matching_id,only:[:edit,:update,:destroy]
+  before_action :authenticate_user!
+  before_action :ensure_correct_user, only:[:edit,:update,:destroy]
 
   def show
     @book = Book.find(params[:id])
-    @book_form = Book.new
+    @book_new = Book.new
     # コメント投稿のインスタンス変数を
     @book_comment = BookComment.new
   end
 
   def index
     @books = Book.all
-    @book = current_user.books.new
+    @book = Book.new
   end
 
   def create
@@ -49,9 +50,9 @@ class BooksController < ApplicationController
     params.require(:book).permit(:title,:body)
   end
 
-  def book_matching_id
-    book = Book.find(params[:id])
-    if book.user_id != current_user.id
+  def ensure_correct_user
+    @book = Book.find(params[:id])
+    unless  @book.user == current_user
       redirect_to books_path
     end
   end
