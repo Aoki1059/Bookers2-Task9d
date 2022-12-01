@@ -4,6 +4,8 @@ class BooksController < ApplicationController
   def show
     @book = Book.find(params[:id])
     @book_form = Book.new
+    # コメント投稿のインスタンス変数を
+    @book_comment = BookComment.new
   end
 
   def index
