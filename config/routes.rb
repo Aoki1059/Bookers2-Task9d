@@ -4,10 +4,17 @@ Rails.application.routes.draw do
   root to: "homes#top"
   get "home/about" => "homes#about"
 
-  resources :books, only: [:index, :show, :edit, :create, :destroy, :update] do
+  resources :books, only:[:index, :show, :edit, :create, :destroy, :update] do
     # 投稿に紐付けする
-    resources :book_comments, only: [:create, :destroy]
+    resources :book_comments, only:[:create, :destroy]
     resource :favorites, only:[:create, :destroy]
   end
-  resources :users, only: [:index, :show, :edit, :update, :create]
+  # フォロー機能をusers用のURL用に設定する
+  resources :users, only:[:index, :show, :edit, :update, :create] do
+    # フォロー機能をuserにネストする
+    # user_idに基づいて、フォロー、アンフォローするので、user_idにネストすることでurlにidを含める
+    resource :ralationships, only:[:create, :destroy]
+    get 'followings' => 'relationships#followeings', as: 'followings'
+    get 'followers' => 'relationships#followers', as: 'followers'
+  end
 end
