@@ -7,7 +7,8 @@ class Book < ApplicationRecord
   has_many :favorites,dependent: :destroy
   # 引数で渡されたユーザidがFavoritesテーブルにあるか調べる
   def favorited_by?(user)
-    favorites.exists?(user_id: user.id)
+    favorites.where(user_id: user.id).exists?
+    # favorites.exists?(user_id: user.id)
   end
 
   validates :title,presence:true

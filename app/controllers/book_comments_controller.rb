@@ -6,12 +6,16 @@ class BookCommentsController < ApplicationController
     # ↑上記のコードは省略記述
     book_comment.book_id = book.id
     book_comment.save
-    redirect_to book_path(book)
+    # １つ前の画面に
+    redirect_to request.referer
+    # redirect_to book_path(book)
   end
 
   def destroy
     BookComment.find(params[:id]).destroy
-    redirect_to book_path(params[:book_id])
+    # １つ前の画面に戻る
+    redirect_to request.referer
+    # redirect_to book_path(params[:book_id])
   end
 
   private
