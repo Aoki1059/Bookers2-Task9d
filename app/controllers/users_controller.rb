@@ -23,6 +23,16 @@ class UsersController < ApplicationController
     else
       render :edit
     end
+    # ユーザーがフォローしている人全員を取得するアクションの定義
+    def followings
+      user = User.find(params[:id])
+      @users = user.followings
+    end
+    # ユーザーをフォローしている人全員を取得するアクションの定義
+    def followers
+      user = User.find(params[:id])
+      @users = user.followers
+    end
   end
 
   private

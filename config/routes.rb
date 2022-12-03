@@ -13,8 +13,9 @@ Rails.application.routes.draw do
   resources :users, only:[:index, :show, :edit, :update, :create] do
     # フォロー機能をuserにネストする
     # user_idに基づいて、フォロー、アンフォローするので、user_idにネストすることでurlにidを含める
-    resource :ralationships, only:[:create, :destroy]
-    get 'followings' => 'relationships#followeings', as: 'followings'
+    resource :relationships, only:[:create, :destroy]
+    # フォローの一覧画面の記述
+    get 'followings' => 'relationships#followings', as: 'followings'
     get 'followers' => 'relationships#followers', as: 'followers'
   end
 end
