@@ -2,6 +2,7 @@ class SearchesController < ApplicationController
   before_action :authenticate_user!
 
   def search
+    @text = params[:word]
     # コードが受け取っている情報
     # 検索モデル→params[:range],検索手法→params[:search],検索ワード→params[:word]
     @range = params[:range]
