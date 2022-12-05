@@ -40,13 +40,13 @@ class User < ApplicationRecord
   # 検索方法の分岐
   # nameはusersテーブルのカラム名
   def self.looks(search, word)
-   if search == "perfect_match"
+   if search == "perfect_match" #完全一致
      @user = User.where("name LIKE?", "#{word}")
-   elsif search == "forward_match"
+   elsif search == "forward_match" #前方一致
      @user = User.where("name LIKE?","#{word}%")
-   elsif search == "backward_match"
+   elsif search == "backward_match" #後方一致
      @user = User.where("name LIKE?","%#{word}")
-   elsif search == "partial_match"
+   elsif search == "partial_match" #部分一致
      @user = User.where("name LIKE?","%#{word}%")
    else
      @user = User.all

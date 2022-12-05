@@ -9,7 +9,6 @@ class UsersController < ApplicationController
   end
 
   def index
-    binding.pry
     @users = User.all
     @book = Book.new
   end
