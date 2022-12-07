@@ -19,7 +19,9 @@
 
           <td><%= @book.body %></td>
 
-          <td><%= render 'favorites/nice', book: @book %></td>
+          <td id="favorite_buttons_<%= @book.id %>">
+            <%= render 'favorites/nice', book: @book %>
+          </td>
 
           <td>コメント件数:<%= @book.book_comments.count %></td>
 
@@ -29,27 +31,15 @@
           <% end %>
         </tr>
       </table>
-      <%= render "book_comments/index", book: @book %>
-      <%= render "book_comments/form", book: @book, book_comment: @book_comment %>
-      <!--<table>-->
-        <!--<% @book.book_comments.each do |book_comment| %>-->
-          <!--<tr>-->
-            <!--<td><%= link_to(book_comment.user) do %>-->
-              <!--<%= image_tag book_comment.user.get_profile_image, size:"50x50" %><br>-->
-              <!--<%= book_comment.user.name %>-->
-              <!--<% end %>-->
-            <!--</td>-->
-            <!--<td><%= book_comment.comment %></td>-->
-            <!--<% if book_comment.user_id == current_user.id %>-->
-              <!--<td><%= link_to 'Destroy', book_book_comment_path(book_comment.book,book_comment), method: :delete, class: "btn btn-sm btn-danger"%></td>-->
-            <!--<% end %>-->
-          <!--</tr>-->
-        <!--<% end %>-->
-      <!--</table>-->
-      <!--<%= form_with model: [@book, @book_comment] do |f| %>-->
-        <!--<%= f.text_area :comment, row:'5' %>-->
-        <!--<%= f.submit "送信" %>-->
-      <!--<% end %>-->
+      <!--非同期：部分テンプレート化-->
+      <!--コメント一覧-->
+      <div id="comments-index">
+        <%= render "book_comments/index", book: @book %>
+      </div>
+      <!--非同期：コメントフォーム-->
+      <div id="comments-form">
+        <%= render "book_comments/form", book: @book, book_comment: @book_comment %>
+      </div>
     </div>
   </div>
 </div>

@@ -1,5 +1,7 @@
-<%= form_with(model:[book, book_comment], local: true) do |f| %>
+<!--非同期：form_withのlocal:trueを外す-->
+<!--htmlファイルではなくjsファイルを探してくれる-->
+<%= form_with(model:[book, book_comment], local: false) do |f| %>
 <!--model:bookの部分でURLを判断し発行しているためbook_commentにネストされていることを教えている-->
   <%= f.text_area :comment, row:'5',placeholder: "コメントをここに", class: "w-100" %>
-  <%= f.submit "送信する", class: "btn btn-lg btn-base-1 mt-20 pull-right" %>
+  <%= f.submit "送信" %>
 <% end %>
