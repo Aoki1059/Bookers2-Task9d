@@ -3,21 +3,38 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
   # Bookモデルとの1:Nの関係付け
-  has_many :books
+  has_many :books, dependent: :destroy
+
   # Userモデルとの1:Nの関係付け
   has_many :book_comments, dependent: :destroy
+
   # Favoriteモデルとの関係付け
   has_many :favorites,dependent: :destroy
+
   # フォロー機能のアソシエーション(follower_id:自分,followed_id:相手)
   # 自分がフォローしたり、アンフォローするための記述
+  # has_many :中間テーブル名, class_name: "中間テーブルが参照するモデル", foreign_key: "中間テーブルにアクセスする際の入り口", dependent: :destroy
+  # @user.relationshipsでユーザーのフォローしている(followed)人を呼び出す
+  # Relationshipに格納されているfollwer_idとfollowed_idを呼び出す
   has_many :relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
+
+  # 見たいのはuserのフォローしているuser達の情報 ↓
+  # relationshipsで、follower_idを指定して、Relationshipを取得(follwer_id=1)
+  # followingsで持ってきたRelationshipに対してfollowedを実行
+  # followedはfollowed_id = user_idなのでフォローされているユーザーの情報を呼び出す
+
+  # フォロー一覧を表示するための記述
+  # has_many :架空のモデル, through: :中間テーブル名, source: :中間テーブルで参照するカラム名（出口）
+  has_many :followings, through: :relationships, source: :followed
+
   # 相手が自分をフォロー、アンフォローするための記述
   has_many :reverse_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
-  # フォロー一覧を表示するための記述
-  has_many :followings, through: :relationships, source: :followed
+
   # フォロワー一覧を表示するための
   has_many :followers, through: :reverse_relationships, source: :follower
+
   has_one_attached :profile_image
 
   validates :name, length: { minimum: 2, maximum: 20 }, uniqueness: true
