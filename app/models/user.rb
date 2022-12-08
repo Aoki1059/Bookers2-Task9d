@@ -3,7 +3,11 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-
+  # 相互フォローのDM機能の記述
+  has_many :user_rooms
+  has_many :chats
+  has_many :rooms, through: :user_rooms
+  
   # Bookモデルとの1:Nの関係付け
   has_many :books, dependent: :destroy
 
@@ -14,7 +18,7 @@ class User < ApplicationRecord
   has_many :favorites,dependent: :destroy
 
   # フォロー機能のアソシエーション(follower_id:自分,followed_id:相手)
-  # 自分がフォローしたり、アンフォローするための記述
+  # 自分がフォローしたり、アンフォローするための記述。
   # has_many :中間テーブル名, class_name: "中間テーブルが参照するモデル", foreign_key: "中間テーブルにアクセスする際の入り口", dependent: :destroy
   # @user.relationshipsでユーザーのフォローしている(followed)人を呼び出す
   # Relationshipに格納されているfollwer_idとfollowed_idを呼び出す

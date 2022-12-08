@@ -16,7 +16,7 @@ class Book < ApplicationRecord
   # 引数で渡されたユーザidがFavoritesテーブルにあるか調べる
   def favorited_by?(user)
     # favoritesの中に .where(カラム名: '田中'のような条件).exists?があるか
-    # つまりuser.id を参照してあればtrue
+    # つまりuser.id を参照してあればtrueを返す
     favorites.where(user_id: user.id).exists?
   end
   
