@@ -22,4 +22,6 @@ Rails.application.routes.draw do
     get 'followers' => 'relationships#followers', as: 'followers'
   end
 
+  resources :chats, only: [:show, :create]
+
 end

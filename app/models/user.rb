@@ -34,10 +34,10 @@ class User < ApplicationRecord
   has_many :followings, through: :relationships, source: :followed
 
   # 相手が自分をフォロー、アンフォローするための記述
-  has_many :reverse_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
+  has_many :reverse_of_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
 
   # フォロワー一覧を表示するための
-  has_many :followers, through: :reverse_relationships, source: :follower
+  has_many :followers, through: :reverse_of_relationships, source: :follower
 
   has_one_attached :profile_image
 
@@ -46,9 +46,7 @@ class User < ApplicationRecord
 
   #フォローしたときの処理
   def follow(user_id)
-    unless self == user_id
-     self.relationships.find_or_create_by(followed_id: user_id.to_i, follower_id: self.id)
-    end
+    relationships.create(followed_id: user_id)
   end
   # フォローを外すときの処理
   def unfollow(user_id)

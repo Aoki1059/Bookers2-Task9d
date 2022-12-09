@@ -11,6 +11,8 @@ class UsersController < ApplicationController
   def index
     @users = User.all
     @book = Book.new
+    # @books = Book.all
+    # @user = current_user
   end
 
   def edit
@@ -23,16 +25,18 @@ class UsersController < ApplicationController
     else
       render :edit
     end
-    # ユーザーがフォローしている人全員を取得するアクションの定義
-    def followings
-      user = User.find(params[:id])
-      @users = user.followings
-    end
-    # ユーザーをフォローしている人全員を取得するアクションの定義
-    def followers
-      user = User.find(params[:id])
-      @users = user.followers
-    end
+  end
+
+  # このユーザーがフォローしている人全員を取得するアクション
+  def follows
+    user = User.find(params[:id])
+    @users = user.follows
+  end
+
+  # このユーザーをフォローしている全員を取得するアクション
+  def followers
+    user = User.find(params[:id])
+    @users = user.followers
   end
 
   private

@@ -10,20 +10,27 @@ class BooksController < ApplicationController
   end
 
   def index
+    @books = Book.all
+    @book = Book.new
      # Time.current(現在日時の取得)
     # beginning_of_week週初めの情報(https://railsdoc.com/page/date_related)
     # from = Time.current.beginning_of_week
     # # end_of_week週終わりの情報
     # to = Time.current.end_of_week
     # これにcreated_atを足したい
-    # @books = Book.includes(:favorited_users).sort {|a,b| b.favorited_users.size <=> a.favorited_users.size}
-    # これは一週間内に作成されたいいねにソートがかかるので、一週間内にいいねしたもの一覧になる
-    # @books = Book.includes(:favorited_users).where(favorites: {created_at: Time.current.all_week}).sort {|a,b| b.favorited_users.size <=> a.favorited_users.size}
-    # ✗ @books = Book.includes(:favorited_users).sort{|a,b|b.favorited_users.where(created_at: Time.current.all_week).size <=> a.favorited_users.where(created_at: Time.current.all_week).size}
-    @books = Book.all.sort{|a,b|b.favorites.where(created_at: Time.current.all_week).size <=> a.favorites.where(created_at: Time.current.all_week).size}
-    @books = Book.includes(:favorites).sort{|a,b|b.favorites.where(created_at: Time.current.all_week).size <=> a.favorites.where(created_at: Time.current.all_week).size}
-    # @bookにインスタンス作成
-    @book = Book.new
+    to  = Time.current.at_end_of_day
+    from  = (to - 6.day).at_beginning_of_day
+    @books = Book.includes(:favorited_users).
+      sort {|a,b|
+        b.favorited_users.includes(:favorites).where(created_at: from...to).size <=>
+        a.favorited_users.includes(:favorites).where(created_at: from...to).size
+      }
+    to = Time.current.at_end_of_day
+    from = (to - 6.day).at_beginning_of_day
+    @books = Book.includes(:favorited_users).
+    sort_by {|x|
+    x.favorited_users.includes(:favorites).where(created_at: from...to).size
+    }.reverse
   end
 
   def create
