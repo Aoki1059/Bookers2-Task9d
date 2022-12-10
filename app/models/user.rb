@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_many :chats
   has_many :rooms, through: :user_rooms
   
-  # 閲覧数表示
+  # 閲覧数表示 1:Nの関係
   has_many :view_counts, dependent: :destroy
   
   # Bookモデルとの1:Nの関係付け

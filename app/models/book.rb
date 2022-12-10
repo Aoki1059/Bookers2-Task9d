@@ -1,22 +1,21 @@
 class Book < ApplicationRecord
   # UserモデルとのN:1の関係付け
   belongs_to :user
-  
+
   # BookCommentモデルとの1:Nの関係付け
   has_many :book_comments,dependent: :destroy
-  
+
   has_many :week_favorites, -> { where(created_at: ((Time.current.at_end_of_day - 6.day).at_beginning_of_day)..(Time.current.at_end_of_day)) }, class_name: 'Favorite'
-  
-  # 閲覧数表示
+
+  # 閲覧数表示 1:Nの関係
   has_many :view_counts, dependent: :destroy
-  
+
   # Favoriteモデルとの1:Nも関係付け
-  has_many :favorites,dependent: :destroy
-  
   has_many :favorites, dependent: :destroy
+
   # favoritesモデルから、userモデルの情報を持ってくる！
   has_many :favorited_users, through: :favorites, source: :user
-  
+
   # favoriteで使用するメソッドの定義
   # 引数で渡されたユーザidがFavoritesテーブルにあるか調べる
   def favorited_by?(user)
@@ -24,7 +23,7 @@ class Book < ApplicationRecord
     # つまりuser.id を参照してあればtrueを返す
     favorites.where(user_id: user.id).exists?
   end
-  
+
   validates :title,presence:true
   validates :body,presence:true,length:{maximum:200}
   # 検索方法の分岐
