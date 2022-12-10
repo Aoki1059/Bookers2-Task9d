@@ -12,12 +12,6 @@ class BooksController < ApplicationController
   def index
     @books = Book.all
     @book = Book.new
-     # Time.current(現在日時の取得)
-    # beginning_of_week週初めの情報(https://railsdoc.com/page/date_related)
-    # from = Time.current.beginning_of_week
-    # # end_of_week週終わりの情報
-    # to = Time.current.end_of_week
-    # これにcreated_atを足したい
     to  = Time.current.at_end_of_day
     from  = (to - 6.day).at_beginning_of_day
     @books = Book.includes(:favorited_users).
@@ -31,6 +25,7 @@ class BooksController < ApplicationController
     sort_by {|x|
     x.favorited_users.includes(:favorites).where(created_at: from...to).size
     }.reverse
+    
   end
 
   def create
