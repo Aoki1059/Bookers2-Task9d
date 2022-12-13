@@ -23,5 +23,4 @@ Rails.application.routes.draw do
   end
 
   resources :chats, only: [:show, :create]
-
 end
