@@ -26,7 +26,9 @@
           <td>コメント件数:<%= @book.book_comments.count %></td>
           <!--閲覧数表示-->
           <td class="view_count">閲覧数: <%= @book_detail.view_counts.count %></td>
-
+          <!--レビュー機能-->
+          <td><%= render "star", book: @book %></td>
+          <!--ここまで-->
           <% if @book.user_id == current_user.id %>
             <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success" %></td>
             <td><%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>

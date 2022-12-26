@@ -21,6 +21,22 @@
          <%= render 'favorites/nice', book: book %>
         </td>
         <td>コメント件数:<%= book.book_comments.count %></td>
+        <td>
+          <div id="rate_<%= book.id %>"></div>
+          <script>
+            $(document).on('turbolinks:load', function() {
+              let raty_<%= book.id %> = document.querySelector('#rate_<%= book.id %>');
+              rate_<%= book.id %>.innerHTML = ""
+              let option_<%= book.id %> = {
+                starOff   : '<%= asset_path('star-off.png') %>',
+                starOn    : '<%= asset_path('star-on.png') %>',
+                readOnly: true,
+                score: <%= book.star %>,
+              };
+              raty(raty_<%= book.id %> ,option_<%= book.id %>);
+            });
+          </script>
+        </td>
         <!--閲覧数表示-->
         <td class="view_count">閲覧数: <%= book.view_counts.count %></td>
       </tr>

@@ -26,6 +26,7 @@ class Book < ApplicationRecord
 
   validates :title,presence:true
   validates :body,presence:true,length:{maximum:200}
+  
   # 検索方法の分岐
   # titleは検索対象であるbooksテーブル内のカラム名
   def self.looks(search, word)
