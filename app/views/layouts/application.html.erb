@@ -12,9 +12,11 @@
     <%= render 'layouts/header' %>
       <main>
         <p id="notice"><%= notice %></p>
-        <div class="d-flex justify-content-center mb-2">
-          <%= render 'searches/search' %>
-        </div>
+        <% if ["users"].any? { |name| current_page?(send("#{name}_path")) } %>
+          <div class ="container text-center">
+             <%= render 'searches/search' %>
+          </div>
+        <% end %>
         <%= yield %>
       </main>
     <%= render 'layouts/footer' %>

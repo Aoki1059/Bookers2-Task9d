@@ -19,6 +19,7 @@
         <th></th>
         <th>Title</th>
         <th>Opinion</th>
+        <th>Tag</th>
         <th colspan="3"></th>
       </tr>
     </thead>
@@ -31,6 +32,7 @@
           </td>
           <td><%= link_to book.title,book %></td>
           <td><%= book.body %></td>
+          <td><%= book.tag  %></td>
         </tr>
       <% end %>
     </tbody>

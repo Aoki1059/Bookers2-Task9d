@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   # Searchesコントローラのsearchアクションが実行されるように定義
   get "search" => "searches#search"
+  get "tag_search" => "tag_searches#search"
 
   resources :books, only:[:index, :show, :edit, :create, :destroy, :update] do
     # 投稿に紐付けする

@@ -4,6 +4,7 @@
       <th></th>
       <th>Title</th>
       <th>Opinion</th>
+      <th>Tag</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,6 +17,11 @@
         </td>
         <td><%= link_to book.title,book %></td>
         <td><%= book.body %></td>
+        <% if book.tag.nil? %>
+          <td></td>
+        <% else %>
+          <td><%= link_to book.tag, tag_search_path(word: book.tag) %></td>
+        <% end %>
         <!--部分テンプレートにした箇所(部分的に更新したい箇所)-->
         <td id="favorite_buttons_<%= book.id %>">
          <%= render 'favorites/nice', book: book %>
