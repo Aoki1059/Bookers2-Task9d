@@ -39,6 +39,8 @@
         </td>
         <!--閲覧数表示-->
         <td class="view_count">閲覧数: <%= book.view_counts.count %></td>
+        <!--作成日時-->
+        <td><%= l book.created_at %></td>
       </tr>
     <% end %>
   </tbody>

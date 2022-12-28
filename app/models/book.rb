@@ -18,19 +18,24 @@ class Book < ApplicationRecord
 
   # favoriteで使用するメソッドの定義
   # 引数で渡されたユーザidがFavoritesテーブルにあるか調べる
+  # favoritesの中に .where(カラム名: '田中'のような条件).exists?があるか
+  # つまりuser.id を参照してあればtrueを返す
   def favorited_by?(user)
-    # favoritesの中に .where(カラム名: '田中'のような条件).exists?があるか
-    # つまりuser.id を参照してあればtrueを返す
     favorites.where(user_id: user.id).exists?
   end
+  
+  # レビュー機能
+  # scope :latest, -> {order(created_at: :desc)}
+  # order・・・データの取り出し Latest・・・任意の名前で定義する
+  # order(created_at: :desc)
+  # created_at・・・投稿日のカラム desc・・・昇順 asc・・・降順
+  scope :latest, -> {order(created_at: :desc)}
+  scope :old, -> {order(created_at: :asc)}
+  scope :star_count, -> {order(star: :desc)}
 
   validates :title,presence:true
   validates :body,presence:true,length:{maximum:200}
-  # レビュー用バリデーション
-   validates :star, numericality: {
-    less_than_or_equal_to: 5,
-    greater_than_or_equal_to: 1
-  }, presence: true
+
   # 検索方法の分岐
   # titleは検索対象であるbooksテーブル内のカラム名
   def self.looks(search, word)
